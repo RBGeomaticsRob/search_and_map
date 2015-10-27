@@ -10,7 +10,7 @@ class SearchAndMap < Sinatra::Base
   get '/search' do
     BingSearch.account_key = ENV['THE_KEY']
     BingSearch.web_only = true
-    @results = BingSearch.web('BBC News', limit: 3)
+    @results = BingSearch.web('BBC News', limit: 3, adult: 'Strict', market: 'en-GB')
     erb :search
   end
 end
