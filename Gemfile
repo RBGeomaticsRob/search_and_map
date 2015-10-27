@@ -2,4 +2,4 @@ source 'https://rubygems.org'
 
 gem 'sinatra'
 gem 'shotgun'
-gem 'google-search'
+gem 'bing-search'
