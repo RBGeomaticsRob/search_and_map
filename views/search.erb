@@ -4,5 +4,12 @@
     <Title>Search and Map</Title>
   </head>
   <body>
+   <div>
+   <% @results.each do |result| %>
+    <a href=<%= "#{result.url}" %>><%= "#{result.title}" %></a>
+    <p><%= "#{result.description}" %></p>
+    <p><%= "#{result.url}" %></p>
+   <% end %>
+   </div>
   </body>
 </html>
