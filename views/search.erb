@@ -2,8 +2,52 @@
 <html>
   <head>
     <Title>Search and Map</Title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="http://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0"></script>
+    <script type="text/javascript">
+    var map = null;
+    function getMap() {
+    // Define the address on which to centre the map
+    var postalCode = "SW1P3AD" //Postcode
+    // Construct a request to the REST geocode service
+    var geocodeRequest = "http://dev.virtualearth.net/REST/v1/Locations"
+                         + "?postalCode=" + postalCode
+                         + "&key=" + <%= "'#{ENV['THE_NEXT_KEY']}'" %>
+                         + "&jsonp=GeocodeCallback"; // This function will be called after the geocode service returns its results
+    // Call the service
+    CallRestService(geocodeRequest);
+    }
+    function GeocodeCallback(result) {
+      // Check that we have a valid response
+      if (result && result.resourceSets && result.resourceSets.length > 0 && result.resourceSets[0].resources && result.resourceSets[0].resources.length > 0) {
+        // Create a Location based on the geocoded coordinates
+        var coords = result.resourceSets[0].resources[0].point.coordinates;
+        centerPoint = new Microsoft.Maps.Location(coords[0], coords[1]);
+        // Create a map centred on the location
+        map = new Microsoft.Maps.Map(document.getElementById("mapDiv"),
+                           { credentials: <%= "'#{ENV['THE_NEXT_KEY']}'" %>,
+                             center: centerPoint,
+                             mapTypeId: Microsoft.Maps.MapTypeId.road,
+                             zoom: 6
+                           });
+        // Add a pushpin as well
+        var pushpin = new Microsoft.Maps.Pushpin(map.getCenter());
+        map.entities.push(pushpin);
+      }
+    }
+    // This is a generic function to call a REST service and insert the JSON
+    // results into the head of the document
+    function CallRestService(request) {
+      var script = document.createElement("script");
+      script.setAttribute("type", "text/javascript");
+      script.setAttribute("src", request);
+      var dochead = document.getElementsByTagName("head").item(0);
+      dochead.appendChild(script);
+    }
+  </script>
+
   </head>
-  <body>
+  <body onload="getMap();">
    <div>
    <% @results.each do |result| %>
     <a href=<%= "#{result.url}" %>><%= "#{result.title}" %></a>
@@ -11,5 +55,6 @@
     <p><%= "#{result.url}" %></p>
    <% end %>
    </div>
+   <div id='mapDiv' style="position:relative; width:300px; height:300px;"></div>
   </body>
 </html>
