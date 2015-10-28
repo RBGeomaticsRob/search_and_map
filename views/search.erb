@@ -4,14 +4,14 @@
     <Title>Search and Map</Title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
-    <script type="text/javascript" src="http://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0"></script>
+    <script type="text/javascript" src="https://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0"></script>
     <script type="text/javascript">
     var map = null;
     function getMap() {
     // Define the address on which to centre the map
     var postalCode = "SW1P3AD" //Postcode
     // Construct a request to the REST geocode service
-    var geocodeRequest = "http://dev.virtualearth.net/REST/v1/Locations"
+    var geocodeRequest = "https://dev.virtualearth.net/REST/v1/Locations"
                          + "?postalCode=" + <%="'#{@postcode}'"%>
                          + "&key=" + <%= "'#{ENV['THE_NEXT_KEY']}'" %>
                          + "&jsonp=GeocodeCallback"; // This function will be called after the geocode service returns its results
