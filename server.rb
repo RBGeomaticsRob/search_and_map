@@ -14,4 +14,8 @@ class SearchAndMap < Sinatra::Base
     @results = BingSearch.web(params[:search], limit: 3, adult: 'Strict', market: 'en-GB')
     erb :search
   end
+
+  get '/gmaps' do
+    erb :gmaps
+  end
 end
